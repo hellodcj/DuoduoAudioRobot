@@ -25,7 +25,7 @@ public class Main {
 		 * 网友上传：8
 		 **/
 		
-		new Thread(new DuoduoRingRobotClient(22, 0, 1)).start();
+		new Thread(new DuoduoRingRobotClient(22, 1, 1)).start();
 //		new Thread(new DuoduoRingRobotClient(22, 11, 20)).start();
 //		new Thread(new DuoduoRingRobotClient(22, 21, 30)).start();
 //		new Thread(new DuoduoRingRobotClient(22, 31, 40)).start();

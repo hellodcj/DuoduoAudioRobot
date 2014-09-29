@@ -140,7 +140,8 @@ public class DuoduoRingRobotClient implements Runnable {
 		do{
 			try {
 				String responseStr = httpGet(url);
-				rings = ringParse(responseStr.replaceAll("\\{\"hasmore\":[0-9]*,\"curpage\":[0-9]*\\},", "").replaceAll(",]", "]"));
+				String list = responseStr.replaceAll("\\{\"hasmore\":[0-9]*,\"curpage\":[0-9]*\\},", "").replaceAll(",]", "]");
+				rings = ringParse(list);
 				hasMore = getHasmore(responseStr);
 				page = getNextPage(responseStr);
 				
@@ -148,6 +149,7 @@ public class DuoduoRingRobotClient implements Runnable {
 				writeToCache(rings);
 				break;
 			} catch(Exception e){
+				e.printStackTrace();
 				cnt++;
 				System.err.println("对于数据" + url + "第" + cnt
 						+ "次抓取失败,正在尝试重新抓取...");
@@ -308,7 +310,9 @@ public class DuoduoRingRobotClient implements Runnable {
 	 * @param ring 当前Ring对象实例
 	 * */
 	private boolean isAvailableRing(Ring ring){
+		
 		Pattern p = Pattern.compile("^[1-9][0-9]*$");
+		if (ring.getDuration()==null || ring.getName()==null ||ring.getArtist()==null) return false;
 		Matcher match = p.matcher(ring.getDuration());
 		if(!match.find()){
 			return false;
